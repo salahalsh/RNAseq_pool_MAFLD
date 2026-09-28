@@ -10,10 +10,14 @@ authors:
     given-names: Salah A.
     orcid: "https://orcid.org/0000-0001-8732-1883"
     affiliation: "Universiti Sultan Zainal Abidin (UniSZA)"
+    email: salahshehade@unisza.edu.my
   - family-names: Alshawsh
     given-names: Mohammed Abdullah
     orcid: "https://orcid.org/0000-0001-8342-5183"
     affiliation: "Monash University; Universiti Malaya"
+  - family-names: Shukri
+    given-names: Nur Hedayatul Husna
+    affiliation: "Universiti Sultan Zainal Abidin (UniSZA)"
   - family-names: Bitar
     given-names: Ahmad Naoras
     orcid: "https://orcid.org/0000-0003-0125-2683"

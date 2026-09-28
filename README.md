@@ -2,7 +2,7 @@
 
 Code and derived data to reproduce the analysis in:
 
-> Alshehade SA, Alshawsh MA, Bitar AN. *An eight-cohort meta-analysis of MASLD liver
+> Alshehade SA, Alshawsh MA, Shukri NHH, Bitar AN. *An eight-cohort meta-analysis of MASLD liver
 > transcriptomes: disease severity, not the obesity comparator, explains between-cohort
 > disagreement.* Manuscript in submission (2026).
 
@@ -127,6 +127,11 @@ These steps depend on live external services or on tools outside this repository
 - **Code:** MIT, see `LICENSE`.
 - **Cohort data:** derived from public GEO submissions (accessions above). Please cite the original studies when you reuse them.
 - **Snapshot files:** records retrieved from third-party resources keep the terms of their sources. These include ChEMBL (CC BY-SA 3.0), Open Targets (CC0), STRING (CC BY 4.0), BindingDB, DGIdb and the sources it aggregates, Pharos, and openFDA. They are provided only so that the published gates can be re-run.
+
+## Contact
+
+Corresponding authors: Mohammed Abdullah Alshawsh (mohammed.alshawsh@monash.edu) and
+Salah A. Alshehade (salahshehade@unisza.edu.my).
 
 ## Citation
 
