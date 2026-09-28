@@ -1,0 +1,8 @@
+# Versions the analysis was run with (Python 3.14)
+pandas==2.3.3
+numpy==2.4.6
+scipy==1.18.0
+scikit-learn==1.9.0
+pydeseq2==0.5.4
+lightgbm==4.7.0
+shap==0.52.0

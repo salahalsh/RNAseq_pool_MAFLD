@@ -1,0 +1,6 @@
+# keep data byte-identical to data/MANIFEST.csv checksums on every platform
+data/** -text
+*.py text eol=lf
+*.md text eol=lf
+*.txt text eol=lf
+*.cff text eol=lf
