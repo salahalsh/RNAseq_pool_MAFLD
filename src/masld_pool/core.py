@@ -1,10 +1,11 @@
 """Gene prioritisation by agreement across three evidence lines.
 
 Lines: (1) membership of the pooled signature, above the expression floor; (2) rank within
-the top 200 SHAP features of the final classifier; (3) STRING degree >= 5 in the network of
-the top 500 pooled genes (a dated snapshot of the STRING query, data/reference), above the
-expression floor. Tier 1 = all three lines, Tier 2 = two, Tier 3 = one. The validation panel
-is the four Tier 1 genes plus the eight Tier 2 genes with the smallest pooled adjusted p.
+the top 200 features of the elastic net by mean |SHAP| averaged over the ten tuning seeds;
+(3) STRING (v12.0) degree >= 5 in the network of the top 500 pooled genes (a dated snapshot of
+the STRING query, data/reference), above the expression floor. Tier 1 = all three lines,
+Tier 2 = two, Tier 3 = one. The validation panel is the Tier 1 genes followed by the Tier 2
+genes with the smallest pooled adjusted p, twelve in total.
 """
 import pandas as pd
 

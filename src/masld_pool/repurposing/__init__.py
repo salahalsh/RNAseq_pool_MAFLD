@@ -1,8 +1,8 @@
 """Target-based repurposing: re-run the gate sequence offline on the dated query snapshot.
 
 The drug-target edges, network neighbours and drug annotations come from live databases
-(Open Targets, DGIdb, ChEMBL, Pharos, BindingDB, Probes&Drugs, openFDA, STRING, Reactome,
-KEGG) queried in September 2026. Those queries are not repeatable to the record, so their
+(Open Targets, DGIdb, ChEMBL, Pharos, BindingDB, openFDA, STRING v12.0, Reactome,
+KEGG) queried on 29 September 2026. Those queries are not repeatable to the record, so their
 results are shipped as a snapshot and only the gates, which are deterministic, are re-run.
 The signature the gates look genes up in is the one recomputed in this run.
 """
@@ -64,3 +64,20 @@ def run(sig, symbols, log=print):
     cand = cand.merge(cur[["drug_name_canonical", "target", "concordance"]],
                       on=["drug_name_canonical", "target"], how="left")
     return att, cand, neg
+
+
+def expected():
+    """Counts of the reference gate run shipped with the snapshot."""
+    cand = pd.read_csv(SNAPSHOT_DIR / "expected_section_b_candidates.tsv", sep="\t")
+    neg = pd.read_csv(SNAPSHOT_DIR / "expected_negative_control_wrong_direction.tsv", sep="\t")
+    return {"rows": len(cand), "drugs": cand.drug_name_canonical.nunique(), "negative_control": len(neg)}
+
+
+def same_attrition(att):
+    """True when every stage of both sections has the same drug, gene and pair counts as the
+    reference run."""
+    ref = pd.read_csv(SNAPSHOT_DIR / "expected_attrition.tsv", sep="\t")
+    cols = [c for c in ref.columns if c in att.columns]
+    a = att[cols].sort_values(["section", "stage"]).reset_index(drop=True)
+    b = ref[cols].sort_values(["section", "stage"]).reset_index(drop=True)
+    return bool(a.equals(b))

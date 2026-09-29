@@ -1,7 +1,7 @@
 cff-version: 1.2.0
 message: "If you use this code or data, please cite the paper and this repository."
 title: "RNAseq_pool_MAFLD: code and data for an eight-cohort meta-analysis of MASLD liver transcriptomes"
-version: 1.0.0
+version: 1.1.0
 date-released: 2026-09-29
 license: MIT
 repository-code: "https://github.com/salahalsh/RNAseq_pool_MAFLD"

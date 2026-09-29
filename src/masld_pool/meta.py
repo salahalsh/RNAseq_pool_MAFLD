@@ -63,13 +63,25 @@ def estimator_sensitivity(Y, S):
     return R, sigs
 
 
-def expression_floor(de, heldout_basemean=None):
-    """25th percentile of each gene's median baseMean across the per-cohort DE tables.
-
-    In the paper the held-out cohort's DE table sat in the same directory and entered this
-    median; pass its baseMean to reproduce the published floor exactly."""
-    bm = {a: de[a].baseMean for a in COHORTS}
-    if heldout_basemean is not None:
-        bm["GSE334651"] = heldout_basemean
-    B = pd.DataFrame(bm).median(axis=1)
+def expression_floor(de):
+    """25th percentile of each gene's median DESeq2 baseMean across the eight per-cohort tables."""
+    B = pd.DataFrame({a: de[a].baseMean for a in COHORTS}).median(axis=1)
     return B, float(B.quantile(0.25))
+
+
+def hksj(Y, S, M):
+    """Hartung-Knapp-Sidik-Jonkman sensitivity: same inputs and DL tau^2, pooled variance
+    rescaled by the weighted residual mean square and referred to t with k - 1 df."""
+    from scipy import stats
+    y, v = Y.loc[M.index].values, np.square(S.loc[M.index].values)
+    ok = np.isfinite(y) & np.isfinite(v) & (v > 0)
+    k = ok.sum(1)
+    mu, tau2 = M.pooled_log2FC.values, M.tau2.values
+    w = np.where(ok, 1.0 / (np.where(ok, v, 1.0) + tau2[:, None]), 0.0)
+    qres = (w * (np.where(ok, y, 0.0) - mu[:, None]) ** 2).sum(1) / np.maximum(k - 1, 1)
+    se = np.sqrt(qres / w.sum(1))
+    with np.errstate(divide="ignore", invalid="ignore"):
+        p = 2 * stats.t.sf(np.abs(mu / se), np.maximum(k - 1, 1))
+    p[k < 2] = np.nan
+    return pd.DataFrame({"pooled_log2FC": mu, "p_hksj": p, "padj_hksj": bh(p), "k_cohorts": k},
+                        index=M.index)

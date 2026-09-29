@@ -105,11 +105,11 @@ for row in read_tsv(meta_sig_path):
         "log2FC": row["pooled_log2FC"],
         "padj": row["padj"],
     }
-log("meta_signature_annotated.tsv (sig75 master): %d symbols" % len(meta_sig_master))
+log("meta_signature_annotated.tsv (signature master): %d symbols" % len(meta_sig_master))
 
 gene_sets_rows = read_tsv(os.path.join(OUT, "gene_sets.tsv"))
 gene_sets_fallback = {}  # symbol -> {gene_set: (log2FC, padj)}, priority order applied at lookup
-GENE_SET_PRIORITY = ["sig75", "core44", "early26", "core12"]
+GENE_SET_PRIORITY = ["signature", "core", "early", "panel"]
 for row in gene_sets_rows:
     gene_sets_fallback.setdefault(row["symbol"], {})[row["gene_set"]] = {
         "log2FC": row["pooled_log2FC"],
@@ -119,7 +119,7 @@ for row in gene_sets_rows:
 
 def gene_a_stats(symbol):
     if symbol in meta_sig_master:
-        return meta_sig_master[symbol]["log2FC"], meta_sig_master[symbol]["padj"], "sig75_master"
+        return meta_sig_master[symbol]["log2FC"], meta_sig_master[symbol]["padj"], "signature_master"
     fallback = gene_sets_fallback.get(symbol, {})
     for gs in GENE_SET_PRIORITY:
         if gs in fallback:
